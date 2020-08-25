@@ -22,7 +22,7 @@
       <v-card-title class="d-flex justify-space-between align-center">
         {{ album.name }}
         <v-btn icon color="red"
-               @click="delete_album('album_' + album.id)">
+               @click="delete_album(album.id)">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
       </v-card-title>
@@ -76,9 +76,7 @@ export default {
           })
     },
     delete_album(id) {
-      console.log(id);
-      console.log(id.substr(6, 1));
-      let ind = this.album_list.findIndex(e => e.id === id.substr(6, 1));
+      let ind = this.album_list.findIndex(e => e.id === id);
       this.album_list.splice(ind, 1);
     }
   }
