@@ -59,7 +59,7 @@ export default {
     }
   },
   mounted() {
-    this.api_get()
+    // this.api_get()
   },
   methods: {
     api_get() {
