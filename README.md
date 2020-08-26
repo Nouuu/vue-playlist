@@ -2,7 +2,7 @@
 
 ## Description
 
-It is a personal project in which I'm experimenting with the vuejs framework with an API rest in PHP.
+It is a personal project in which I'm experimenting with the vuejs framework with rest API in PHP.
 ## Vue Project setup
 ```
 npm install
