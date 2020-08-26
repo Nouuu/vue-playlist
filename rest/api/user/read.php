@@ -24,7 +24,8 @@ if ($itemsCount > 0) {
             'pseudo_user' => $row['pseudo_user'],
             'password_user' => $row['password_user'],
             'role_user' => $row['role_user'],
-            'date_inscription_user' => $row['date_inscription_user']
+            'date_inscription_user' => $row['date_inscription_user'],
+            'list_count' => $row['list_count']
         ];
         array_push($userArr["body"], $e);
     }

@@ -20,7 +20,8 @@ class User
 
     public function getUsers()
     {
-        $sql = 'select email_user, pseudo_user, password_user, role_user, date_inscription_user from ' . $this->db_table;
+        $sql = 'select email_user, pseudo_user, password_user, role_user, date_inscription_user, ' .
+            '(select count(*) from list where user_email_fk = email_user) as list_count from ' . $this->db_table;
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt;
