@@ -55,9 +55,8 @@ class User
 
     public function getSingleUser()
     {
-        $sql = "select email_user, pseudo_user, password_user, role_user, date_inscription_user " .
-            "from " . $this->db_table . " where email_user = ? limit 0,1";
-
+        $sql = 'select email_user, pseudo_user, password_user, role_user, date_inscription_user ' .
+            'from ' . $this->db_table . ' where email_user = ? limit 0,1';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->email_user);
         $stmt->execute();
@@ -69,7 +68,6 @@ class User
             $this->role_user = $data['role_user'];
             $this->date_inscription_user = $data['date_inscription_user'];
         }
-
     }
 
     public function updateUser()

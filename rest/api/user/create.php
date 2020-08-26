@@ -19,5 +19,6 @@ $item->role_user = $data->role_user;
 if ($item->createUser()) {
     echo 'User created successfully.';
 } else {
+    http_response_code(500);
     echo 'User could not be created.';
 }
