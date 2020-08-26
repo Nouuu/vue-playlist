@@ -14,7 +14,15 @@
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item link to="/about" exact>
+      <v-list-item link to="/users" exact>
+        <v-list-item-action>
+          <v-icon>mdi-account-multiple</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Utilisateurs</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link to="/settings" exact>
         <v-list-item-action>
           <v-icon>mdi-cog</v-icon>
         </v-list-item-action>
