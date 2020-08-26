@@ -1,6 +1,9 @@
 # vue-playlist
 
-## Project setup
+## Description
+
+It is a personal project in which I'm experimenting with the vuejs framework with an API rest in PHP.
+## Vue Project setup
 ```
 npm install
 ```
@@ -22,3 +25,23 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Php project setup
+
+### Configure your apache path
+```
+PROJECT_DIR/rest/api
+```
+
+### Set your API domain in vue js
+```
+PROJECT_DIR/src/main.js
+```
+```js
+Vue.prototype.$api_url = 'http://api.test/';
+```
+
+### Set your db connexion
+```
+PROJECT_DIR/rest/env.php
+```
