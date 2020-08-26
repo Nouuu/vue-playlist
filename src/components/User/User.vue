@@ -51,7 +51,7 @@ export default {
     api_get_user() {
       this.api_user_progress_bar = true;
       this.error_snackbar = false;
-      this.$http.get(this.$api_url + 'users/' + 'user.php?email=' + this.email_user)
+      this.$http.get(this.$api_url + 'user/' + 'single_read.php?email=' + this.email_user)
           .then(result => {
             this.user = result.data;
             this.api_user_progress_bar = false;

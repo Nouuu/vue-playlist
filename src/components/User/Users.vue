@@ -90,9 +90,9 @@ export default {
     api_get_user_list() {
       this.api_progress_bar = true;
       this.error_snackbar = false;
-      this.$http.get(this.$api_url + 'users/' + 'userlist.php')
+      this.$http.get(this.$api_url + 'user/' + 'read.php')
           .then(result => {
-            this.user_list = result.data;
+            this.user_list = result.data.body;
             this.api_progress_bar = false;
           })
           .catch(() => {
