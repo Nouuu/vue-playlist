@@ -1,35 +1,38 @@
 <template>
   <div class="row">
-    <v-card class="col-xl-8 col-md-12">
-      <v-card-title class="d-flex align-baseline">
-        Utilisateurs
-        <v-spacer></v-spacer>
-        <v-text-field
-            v-model="searchbar"
-            append-icon="mdi-magnify"
-            label="Rechercher"
-            single-line
-            hide-details>
-        </v-text-field>
-        <v-btn icon color="green"
-               @click="api_get_user_list">
-          <v-icon>mdi-cached</v-icon>
-        </v-btn>
+    <v-col cols="12" lg="8">
 
-      </v-card-title>
-      <v-progress-linear
-          indeterminate
-          v-if="api_progress_bar"
-      ></v-progress-linear>
-      <v-data-table
-          v-if="!api_progress_bar"
-          :headers="headers"
-          :items="user_list"
-          :search="searchbar"
-          @click:row="showUser"
-      >
-      </v-data-table>
-    </v-card>
+      <v-card>
+        <v-card-title class="d-flex align-baseline">
+          Utilisateurs
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-model="searchbar"
+              append-icon="mdi-magnify"
+              label="Rechercher"
+              single-line
+              hide-details>
+          </v-text-field>
+          <v-btn icon color="green"
+                 @click="api_get_user_list">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+
+        </v-card-title>
+        <v-progress-linear
+            indeterminate
+            v-if="api_progress_bar"
+        ></v-progress-linear>
+        <v-data-table
+            v-if="!api_progress_bar"
+            :headers="headers"
+            :items="user_list"
+            :search="searchbar"
+            @click:row="showUser"
+        >
+        </v-data-table>
+      </v-card>
+    </v-col>
 
     <v-snackbar v-model="error_snackbar">
       Erreur API
@@ -90,9 +93,10 @@ export default {
     api_get_user_list() {
       this.api_progress_bar = true;
       this.error_snackbar = false;
-      this.$http.get(this.$api_url + 'users/' + 'userlist.php')
+      this.$http.get(this.$api_url + 'user/' + 'read.php')
           .then(result => {
-            this.user_list = result.data;
+            console.log(result);
+            this.user_list = result.data.body;
             this.api_progress_bar = false;
           })
           .catch(() => {

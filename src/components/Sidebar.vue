@@ -35,7 +35,7 @@
     <template v-slot:append>
       <v-list-item link to="/logout" exact>
         <v-list-item-action>
-          <v-icon>mdi-amazon-alexa</v-icon>
+          <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>Logout</v-list-item-title>

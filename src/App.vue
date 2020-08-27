@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-<sidebar></sidebar>
+    <sidebar v-if="sidebar"></sidebar>
     <v-main>
       <v-container
           class="pa-10"
@@ -20,15 +20,22 @@ export default {
   name: 'App',
 
   components: {
-    'sidebar':Sidebar
+    'sidebar': Sidebar
   },
 
   data: () => ({
     drawer: null,
+    sidebar: false
   }),
   created() {
     this.$vuetify.theme.dark = true
   },
+  updated() {
+    this.sidebar = sessionStorage.getItem('connected') === 'true';
+  },
+  mounted() {
+    this.sidebar = sessionStorage.getItem('connected') === 'true';
+  }
 };
 </script>
 <style scoped>

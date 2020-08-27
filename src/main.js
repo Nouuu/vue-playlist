@@ -6,6 +6,8 @@ import axios from 'axios';
 
 Vue.config.productionTip = false;
 
+axios.defaults.withCredentials = true;
+
 Vue.prototype.$http = axios;
 
 Vue.prototype.$api_url = 'http://api.test/';
