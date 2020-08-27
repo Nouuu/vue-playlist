@@ -15,6 +15,9 @@ class User
 
     public function __construct($db)
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->conn = $db;
     }
 
@@ -109,6 +112,98 @@ class User
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function login()
+    {
+        $sql = 'select email_user, pseudo_user, password_user, role_user, date_inscription_user ' .
+            'from ' . $this->db_table . ' where email_user = :email and password_user = :password limit 0,1';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam('email', $this->email_user);
+        $stmt->bindParam('password', $this->password_user);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            $this->pseudo_user = $data['pseudo_user'];
+            $this->role_user = $data['role_user'];
+            $this->date_inscription_user = $data['date_inscription_user'];
+
+            return $this->saveToken();
+
+        } else {
+            http_response_code(401);
+            echo 'Fail to login';
+            die;
+        }
+    }
+
+    private function generateToken()
+    {
+        try {
+            return substr(str_shuffle(bin2hex(random_bytes(100))), 0, 60);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo 'Fail to generate token';
+            die;
+        }
+    }
+
+    private function saveToken()
+    {
+        $token = $this->generateToken();
+        $_SESSION['token_user'] = $token;
+
+        $sql = 'update ' . $this->db_table . ' set token = :token ' .
+            ' where email_user = :email';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam('token', $token);
+        $stmt->bindParam('email', $this->email_user);
+        $stmt->execute();
+
+        if ($stmt->errorCode() !== '00000') {
+            http_response_code(500);
+            echo 'Fail to save token';
+            die;
+        }
+
+        return $token;
+    }
+
+    public function logout()
+    {
+        $sql = 'update ' . $this->db_table . ' set token = null ' .
+            ' where token = :token';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam('token', $token);
+        $stmt->execute();
+
+        unset($_SESSION['token_user']);
+    }
+
+    public function isConnected()
+    {
+        return isset($_SESSION['token_user']) && strlen($_SESSION['token_user']) === 60;
+    }
+
+    public function getConnectedUser()
+    {
+        if ($this->isConnected()) {
+            $sql = 'select email_user, pseudo_user, password_user, role_user, date_inscription_user ' .
+                'from ' . $this->db_table . ' where token = ? limit 0,1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $_SESSION['token_user']);
+            $stmt->execute();
+
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($data) {
+                $this->email_user = $data['email_user'];
+                $this->pseudo_user = $data['pseudo_user'];
+                $this->password_user = $data['password_user'];
+                $this->role_user = $data['role_user'];
+                $this->date_inscription_user = $data['date_inscription_user'];
+            }
         }
     }
 }
