@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from "@/components/Dashboard";
+import Login from "@/components/Login";
+import Logout from "@/components/Logout";
 
 Vue.use(VueRouter)
 
@@ -8,7 +10,12 @@ const routes = [
     {
         path: '/',
         name: 'Dashboard',
-        component: Dashboard
+        component: Dashboard,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
     },
     {
         path: '/settings',
@@ -26,7 +33,13 @@ const routes = [
     {
         path: '/user/:email_user',
         name: 'User',
-        component: () => import('@/components/User/User')}
+        component: () => import('@/components/User/User')
+    },
+    {
+        path: '/logout',
+        name: 'Logout',
+        component: Logout
+    }
 ]
 
 const router = new VueRouter({
@@ -34,5 +47,11 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'Login' && sessionStorage.getItem('connected') !== 'true') next({name: 'Login'})
+    else next()
+})
+
 
 export default router
