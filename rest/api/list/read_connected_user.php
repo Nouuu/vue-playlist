@@ -4,6 +4,7 @@ require_once __DIR__ . '/../header_get.php';
 
 require_once __DIR__ . '/../../config/Database.php';
 require_once __DIR__ . '/../../class/AlbumList.php';
+require_once __DIR__ . '/../../class/User.php';
 
 require_once __DIR__ . '/../../middleware/user.php';
 
@@ -11,8 +12,11 @@ $database = new Database();
 $db = $database->getConnection();
 
 $items = new AlbumList($db);
-$items->user_email_fk = isset($_GET['email']) ? $_GET['email'] : die();
 
+$connectedUser = new User($db);
+$connectedUser->getConnectedUser();
+
+$items->user_email_fk = $connectedUser->email_user;
 
 $stmt = $items->getUsersLists();
 $itemsCount = $stmt->rowCount();
