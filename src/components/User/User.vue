@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <v-row>
     <v-col cols="12" md="8" lg="6" xl="4">
 
       <v-card outlined elevation="6">
@@ -63,7 +63,7 @@
       </template>
     </v-snackbar>
 
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -128,7 +128,6 @@ export default {
           })
     },
   }
-
 }
 </script>
 

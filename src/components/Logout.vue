@@ -17,7 +17,7 @@ export default {
   name: "Logout",
   mounted() {
     this.$http.post(this.$api_url + 'user/logout.php').then(() => {
-      sessionStorage.setItem('connected','false');
+      sessionStorage.clear()
       this.$router.push('/login')
 
     }).catch((response) => {
