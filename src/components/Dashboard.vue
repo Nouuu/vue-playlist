@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" md="8" lg="6" xl="6">
+    <v-col v-if="false" cols="12" md="8" lg="6" xl="6">
       <v-card>
         <v-card-title class="d-flex align-baseline">
           Mes listes
@@ -28,6 +28,26 @@
             :items="lists"
             :search="list_searchbar">
         </v-data-table>
+      </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-text-field label="Search album" v-model="album_search" @keyup="api_search_album">
+      </v-text-field>
+    </v-col>
+
+    <v-col cols="12" md="6" lg="4" xl="3" v-for="item in album_result.results" :key="item.id">
+      <v-card>
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <div>
+            <v-card-title class="headline" v-text="item.title"></v-card-title>
+
+            <v-card-subtitle v-text="item.year"></v-card-subtitle>
+          </div>
+
+          <v-avatar class="ma-3" size="125" tile>
+            <v-img :src="item.thumb"></v-img>
+          </v-avatar>
+        </div>
       </v-card>
     </v-col>
 
@@ -67,6 +87,9 @@ export default {
         }
       ],
       list_searchbar: '',
+      album_search: '',
+      album_result: {},
+      search_delay: null,
       api_list_progress_bar: false,
       error_snackbar: false
     }
@@ -88,6 +111,29 @@ export default {
             this.error_snackbar = true;
           })
     },
+    api_search_album() {
+      if (this.album_search.length === 0) {
+        clearTimeout(this.search_delay);
+        this.search_delay = null;
+        this.album_result = {};
+      } else {
+        if (this.search_delay) {
+          clearTimeout(this.search_delay);
+          this.search_delay = null;
+        }
+
+        this.search_delay = setTimeout(() => {
+          this.error_snackbar = false;
+          this.$http.get(this.$api_url + 'discogs/search_album.php?search=' + this.album_search)
+              .then(result => {
+                this.album_result = result.data;
+              })
+              .catch(() => {
+                this.error_snackbar = true;
+              })
+        }, 800);
+      }
+    }
   }
 
 }
