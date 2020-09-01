@@ -1,51 +1,48 @@
 <template>
-  <div>
-    <div class="d-flex justify-space-between align-center">
-      <h1>Test API</h1>
-      <v-spacer></v-spacer>
-      <v-btn icon color="green"
-             @click="api_get">
-        <v-icon>mdi-cached</v-icon>
-      </v-btn>
-    </div>
-    <v-progress-linear
-        indeterminate
-        v-if="album_get_progress"
-    ></v-progress-linear>
+  <v-row>
+    <v-col cols="12" md="8" lg="6" xl="6">
+      <v-card>
+        <v-card-title class="d-flex align-baseline">
+          Mes listes
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-model="list_searchbar"
+              append-icon="mdi-magnify"
+              label="Rechercher"
+              single-line
+              hide-details>
+          </v-text-field>
+          <v-btn icon color="green"
+                 @click="api_get_user_playlist">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
 
-    <v-card
-        class="my-5"
-        v-for="album in album_list"
-        v-bind:key="album.id"
-        v-bind:id="'album_' + album.id"
-        elevation="12">
-      <v-card-title class="d-flex justify-space-between align-center">
-        {{ album.name }}
-        <v-btn icon color="red"
-               @click="delete_album(album.id)">
-          <v-icon>mdi-minus</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-card-subtitle>
-        <ul>
-          <li>Artist : {{ album.artist }}</li>
-          <li>Tracks : {{ album.tracks }}</li>
-          <li>Duration : {{ album.duration }} min</li>
-        </ul>
-      </v-card-subtitle>
-    </v-card>
+        </v-card-title>
+        <v-progress-linear
+            indeterminate
+            v-if="api_list_progress_bar"
+        ></v-progress-linear>
+        <v-data-table
+            v-if="!api_list_progress_bar"
+            :headers="lists_header"
+            :items="lists"
+            :search="list_searchbar">
+        </v-data-table>
+      </v-card>
+    </v-col>
 
-    <v-snackbar v-model="snackbar">
+
+    <v-snackbar v-model="error_snackbar">
       Erreur API
       <template v-slot:action="">
         <v-btn
             color="pink"
-            @click="snackbar = false"
+            @click="error_snackbar = false"
             text>Ok
         </v-btn>
       </template>
     </v-snackbar>
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -53,33 +50,46 @@ export default {
   name: "DashBoard",
   data: function () {
     return {
-      album_list: [],
-      album_get_progress: true,
-      snackbar: false
+      lists: [],
+      lists_header: [
+        {
+          text: 'Nom de la liste',
+          align: 'start',
+          value: 'name_list'
+        },
+        {
+          text: 'Date de création',
+          value: 'date_creation_list'
+        },
+        {
+          text: 'Nombre d\'albums',
+          value: 'album_count'
+        }
+      ],
+      list_searchbar: '',
+      api_list_progress_bar: false,
+      error_snackbar: false
     }
   },
   mounted() {
-    // this.api_get()
+    this.api_get_user_playlist();
   },
   methods: {
-    api_get() {
-      this.album_get_progress = true;
-      this.snackbar = false;
-      this.$http.get(this.$api_url + 'test.php')
+    api_get_user_playlist() {
+      this.api_list_progress_bar = true;
+      this.error_snackbar = false;
+      this.$http.get(this.$api_url + 'list/read_connected_user.php')
           .then(result => {
-            this.album_list = result.data;
-            this.album_get_progress = false;
+            this.lists = result.data.body;
+            this.api_list_progress_bar = false;
           })
           .catch(() => {
-            this.album_get_progress = false;
-            this.snackbar = true;
+            this.api_list_progress_bar = false;
+            this.error_snackbar = true;
           })
     },
-    delete_album(id) {
-      let ind = this.album_list.findIndex(e => e.id === id);
-      this.album_list.splice(ind, 1);
-    }
   }
+
 }
 </script>
 

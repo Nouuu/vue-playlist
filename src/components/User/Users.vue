@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <v-row>
     <v-col cols="12" lg="8">
 
       <v-card>
@@ -45,7 +45,7 @@
       </template>
     </v-snackbar>
 
-  </div>
+  </v-row>
 </template>
 
 <script>
