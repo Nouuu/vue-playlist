@@ -15,5 +15,13 @@ $item->email_user = $data->email_user;
 $item->password_user = hash('sha256', $data->password_user);
 
 $token = $item->login();
+$item->getConnectedUser();
 
-echo json_encode($_SESSION['token_user']);
+$user = array(
+    'email_user' => $item->email_user,
+    'pseudo_user' => $item->pseudo_user,
+    'role_user' => $item->role_user,
+    'date_inscription_user' => $item->date_inscription_user
+);
+echo json_encode($user);
+
