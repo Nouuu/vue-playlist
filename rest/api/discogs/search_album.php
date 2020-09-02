@@ -24,6 +24,9 @@ $output = json_decode(curl_exec($curl));
 
 curl_close($curl);
 
+//var_dump($output);
+//die;
+
 $final_json = [];
 
 $final_json['total_result'] = empty($output->pagination->items) ? 0 : $output->pagination->items;
@@ -36,7 +39,8 @@ if (!empty($output->results)) {
             'id' => empty($item->id) ? '' : $item->id,
             'title' => empty($item->title) ? '' : $item->title,
             'year' => empty($item->year) ? '' : $item->year,
-            'thumb' => empty($item->thumb) ? '' : $item->thumb
+            'thumb' => empty($item->thumb) ? '' : $item->thumb,
+            'cover' => empty($item->cover_image) ? '' : $item->cover_image
         );
     }
 }
