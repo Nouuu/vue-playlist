@@ -7,10 +7,10 @@ $curl = curl_init();
 $token = 'iYVWgqSIDEjmWvgMKZoMfrpESWtiAYJtXghMkhMM';
 $api_url = 'https://api.discogs.com';
 $search_entry = isset($_GET['search']) ? $_GET['search'] : die();;
-$search_entry = trim(strip_tags($search_entry));
+$search_entry = trim(strtolower($search_entry));
 
 
-curl_setopt($curl, CURLOPT_URL, $api_url . '/database/search?q=' . $search_entry . '&type=master&per_page=20');
+curl_setopt($curl, CURLOPT_URL, $api_url . '/database/search?q=' . $search_entry . '&type=release&per_page=20');
 
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
     'Authorization: Discogs token=' . $token,
@@ -24,6 +24,9 @@ $output = json_decode(curl_exec($curl));
 
 curl_close($curl);
 
+//var_dump($output);
+//die;
+
 $final_json = [];
 
 $final_json['total_result'] = empty($output->pagination->items) ? 0 : $output->pagination->items;
@@ -36,7 +39,8 @@ if (!empty($output->results)) {
             'id' => empty($item->id) ? '' : $item->id,
             'title' => empty($item->title) ? '' : $item->title,
             'year' => empty($item->year) ? '' : $item->year,
-            'thumb' => empty($item->thumb) ? '' : $item->thumb
+            'thumb' => empty($item->thumb) ? '' : $item->thumb,
+            'cover' => empty($item->cover_image) ? '' : $item->cover_image
         );
     }
 }
