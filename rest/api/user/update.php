@@ -19,7 +19,7 @@ $item->password_user = hash('sha256', $data->password_user);
 $item->role_user = $data->role_user;
 
 if ($item->updateUser()) {
-    echo 'User updated successfully.';
+    echo json_encode('User updated successfully.');
 } else {
-    echo 'User could not be updated.';
+    echo json_encode('User could not be updated.');
 }

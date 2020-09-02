@@ -15,8 +15,8 @@ $item->name_list = $data->name_list;
 $item->user_email_fk = $data->user_email_fk;
 
 if ($item->createList()) {
-    echo 'List created successfully.';
+    echo json_encode('List created successfully.');
 } else {
     http_response_code(500);
-    echo 'List could not be created.';
+    echo json_encode('List could not be created.');
 }

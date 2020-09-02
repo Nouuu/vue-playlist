@@ -134,7 +134,7 @@ class User
 
         } else {
             http_response_code(401);
-            echo 'Fail to login';
+            echo json_encode('Fail to login');
             die;
         }
     }
@@ -145,7 +145,7 @@ class User
             return substr(str_shuffle(bin2hex(random_bytes(100))), 0, 60);
         } catch (Exception $e) {
             http_response_code(500);
-            echo 'Fail to generate token';
+            echo json_encode('Fail to generate token');
             die;
         }
     }
@@ -164,7 +164,7 @@ class User
 
         if ($stmt->errorCode() !== '00000') {
             http_response_code(500);
-            echo 'Fail to save token';
+            echo json_encode('Fail to save token');
             die;
         }
 

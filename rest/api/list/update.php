@@ -15,7 +15,7 @@ $item->id_list = $data->id_list;
 $item->name_list = $data->name_list;
 
 if ($item->updateList()) {
-    echo 'User updated successfully.';
+    echo json_encode('User updated successfully.');
 } else {
-    echo 'User could not be updated.';
+    echo json_encode('User could not be updated.');
 }

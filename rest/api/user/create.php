@@ -19,8 +19,8 @@ $item->password_user = hash('sha256', $data->password_user);
 $item->role_user = $data->role_user;
 
 if ($item->createUser()) {
-    echo 'User created successfully.';
+    echo json_encode('User created successfully.');
 } else {
     http_response_code(500);
-    echo 'User could not be created.';
+    echo json_encode('User could not be created.');
 }

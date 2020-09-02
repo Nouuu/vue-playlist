@@ -14,8 +14,8 @@ $data = json_decode(file_get_contents('php://input'));
 $item->id_list = $data->id_list;
 
 if ($item->deleteList()) {
-    echo 'List deleted successfully.';
+    echo json_encode('List deleted successfully.');
 } else {
     http_response_code(500);
-    echo 'List could not be deleted.';
+    echo json_encode('List could not be deleted.');
 }
