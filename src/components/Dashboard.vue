@@ -31,6 +31,7 @@
       </v-card>
     </v-col>
     <v-col cols="6">
+      <!--      TODO Transform into component-->
       <v-toolbar>
         <v-toolbar-title>Rechercher un album</v-toolbar-title>
         <v-autocomplete
