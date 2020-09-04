@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col v-if="false" cols="12" md="8" lg="6" xl="6">
+    <v-col v-if="true" cols="12" md="8" lg="6" xl="6">
       <v-card>
         <v-card-title class="d-flex align-baseline">
           Mes listes
@@ -30,38 +30,9 @@
         </v-data-table>
       </v-card>
     </v-col>
-    <v-col cols="6">
-      <!--      TODO Transform into component-->
-      <v-toolbar>
-        <v-toolbar-title>Rechercher un album</v-toolbar-title>
-        <v-autocomplete
-            v-model="album_autocomplete.album_select"
-            :loading="album_autocomplete.loading"
-            :items="this.album_autocomplete.autocomplete_items"
-            :search-input.sync="search"
-            item-text="title"
-            item-value="id"
-            flat hide-no-data hide-details solo-inverted
-            clearable
-            solo
-            class="mx-4"
-        >
-          <template v-slot:selection="{ item }">
-            {{ item.title }} <strong class="ml-2">{{ item.year }}</strong>
-          </template>
 
-          <template v-slot:item="{ item }">
-            <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
-              <v-list-item-subtitle v-text="item.year"></v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-avatar size="60" rounded>
-              <v-img :src="item.thumb"></v-img>
-            </v-list-item-avatar>
-          </template>
-
-        </v-autocomplete>
-      </v-toolbar>
+    <v-col cols="12" md="8" lg="6">
+      <album-search @selectAlbum="select_album($event)"></album-search>
     </v-col>
 
     <v-snackbar v-model="error_snackbar">
@@ -77,6 +48,8 @@
   </v-row>
 </template>
 <script>
+import AlbumSearch from "@/components/Discogs/AlbumSearch";
+
 export default {
   name: "DashBoard",
   data: function () {
@@ -100,30 +73,14 @@ export default {
       list_searchbar: '',
       api_list_progress_bar: false,
 
-      search: null,
-      album_autocomplete: {
-        album_select: null,
-        loading: false,
-        album_api_result: {},
-        search_delay: null,
-        select: null,
-        autocomplete_items: []
-      },
       error_snackbar: false
     }
   },
+  components: {
+    'album-search': AlbumSearch
+  },
   mounted() {
     this.api_get_user_playlist();
-  },
-  watch: {
-    search(val) {
-      if (val && val.length > 0) {
-        this.api_search_album(val);
-      } else {
-        clearTimeout(this.album_autocomplete.search_delay);
-        this.album_autocomplete.search_delay = null;
-      }
-    }
   },
   methods: {
     api_get_user_playlist() {
@@ -139,35 +96,8 @@ export default {
             this.error_snackbar = true;
           })
     },
-    api_search_album(val) {
-      clearTimeout(this.album_autocomplete.search_delay);
-      this.album_autocomplete.search_delay = null;
-      this.album_autocomplete.album_api_result = {};
-      this.album_autocomplete.autocomplete_items = [];
-
-      this.album_autocomplete.search_delay = setTimeout(() => {
-        this.error_snackbar = false;
-        this.album_autocomplete.loading = true;
-        this.$http.get(this.$api_url + 'discogs/search_album.php?search=' + val)
-            .then(result => {
-              this.album_autocomplete.album_api_result = result.data;
-              this.process_album_search_items();
-            })
-            .catch(() => {
-              this.process_album_search_items();
-              this.error_snackbar = true;
-            })
-            .finally(() => {
-                  this.album_autocomplete.loading = false;
-                }
-            )
-      }, 800);
-    },
-    process_album_search_items() {
-      this.album_autocomplete.autocomplete_items = [];
-      for (let i = 0; i < this.album_autocomplete.album_api_result.results.length; i++) {
-        this.album_autocomplete.autocomplete_items[i] = this.album_autocomplete.album_api_result.results[i];
-      }
+    select_album($id) {
+      console.log('selected : ' + $id);
     }
   }
 }
