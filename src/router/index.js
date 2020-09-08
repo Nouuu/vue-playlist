@@ -36,6 +36,16 @@ const routes = [
         component: () => import('@/components/User/User')
     },
     {
+        path: '/search',
+        name: 'Search',
+        component: () => import('@/components/Search')
+    },
+    {
+        path: '/search/album/:album_id',
+        name: 'Album view',
+        component: () => import('@/components/Discogs/AlbumView')
+    },
+    {
         path: '/logout',
         name: 'Logout',
         component: Logout
