@@ -27,7 +27,15 @@
           <v-icon>mdi-monitor-dashboard</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Dashboard</v-list-item-title>
+          <v-list-item-title>Accueil</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link to="/search" exact>
+        <v-list-item-action>
+          <v-icon>mdi-music-circle-outline</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Trouver un média</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item link to="/users" exact>
@@ -43,7 +51,7 @@
           <v-icon>mdi-cog</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Settings</v-list-item-title>
+          <v-list-item-title>Paramètres</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -54,7 +62,7 @@
           <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Logout</v-list-item-title>
+          <v-list-item-title>Se déconnecter</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
