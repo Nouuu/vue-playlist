@@ -3,20 +3,20 @@
     <v-toolbar-title>Rechercher un album</v-toolbar-title>
     <v-autocomplete
         v-model="album_autocomplete.album_select"
+        :items="album_autocomplete.autocomplete_items"
         :loading="album_autocomplete.loading"
-        :items="this.album_autocomplete.autocomplete_items"
         :search-input.sync="search"
         @change="select_album"
         item-text="title"
         item-value="id"
+        no-filter
         flat hide-no-data hide-details solo-inverted
         clearable
-        solo
         class="mx-4"
     >
-      <template v-slot:selection="{ item }">
-        {{ item.title }} <strong class="ml-2">{{ item.year }}</strong>
-      </template>
+      <!--      <template v-slot:selection="{ item }">-->
+      <!--        {{ item.title }} <strong class="ml-2">{{ item.year }}</strong>-->
+      <!--      </template>-->
 
       <template v-slot:item="{ item }">
         <v-list-item-content>
@@ -62,7 +62,7 @@ export default {
   },
   watch: {
     search(val) {
-      if (val && val.length > 0) {
+      if (val) {
         this.api_search_album(val);
       } else {
         clearTimeout(this.album_autocomplete.search_delay);
@@ -83,10 +83,10 @@ export default {
         this.$http.get(this.$api_url + 'discogs/search_album.php?search=' + val)
             .then(result => {
               this.album_autocomplete.album_api_result = result.data;
-              this.process_album_search_items();
+              this.album_autocomplete.autocomplete_items = this.album_autocomplete.album_api_result.results;
             })
             .catch(() => {
-              this.process_album_search_items();
+              this.album_autocomplete.autocomplete_items = [];
               this.error_snackbar = true;
             })
             .finally(() => {
@@ -94,12 +94,6 @@ export default {
                 }
             )
       }, 800);
-    },
-    process_album_search_items() {
-      this.album_autocomplete.autocomplete_items = [];
-      for (let i = 0; i < this.album_autocomplete.album_api_result.results.length; i++) {
-        this.album_autocomplete.autocomplete_items[i] = this.album_autocomplete.album_api_result.results[i];
-      }
     },
     select_album() {
       this.$emit('selectAlbum', this.album_autocomplete.album_select);
