@@ -8,10 +8,10 @@
 
         <v-card-title
             class="headline"
-            v-text="album.artist.name"
+            v-text="album.title"
         ></v-card-title>
 
-        <v-card-subtitle v-text="album.title"></v-card-subtitle>
+        <v-card-subtitle class="text-h6" v-text="album.artist.name"></v-card-subtitle>
         <v-card-text>
           <ul>
             <li>
