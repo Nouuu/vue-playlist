@@ -34,7 +34,7 @@ $final_json['artist']['name'] = empty($output->artists[0]->name) ? '' : $output-
 $final_json['artist']['id'] = empty($output->artists[0]->id) ? '' : $output->artists[0]->id;
 
 $final_json['title'] = empty($output->title) ? '' : $output->title;
-$final_json['release_date'] = empty($output->released) ? '' : $output->released;
+$final_json['release_date'] = empty($output->year) ? '' : $output->year;
 
 if (!empty($output->genres)) {
     $final_json['genres'] = [];
