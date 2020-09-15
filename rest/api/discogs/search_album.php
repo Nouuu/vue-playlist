@@ -10,7 +10,7 @@ $search_entry = isset($_GET['search']) ? $_GET['search'] : die();;
 $search_entry = trim(strtolower($search_entry));
 
 
-curl_setopt($curl, CURLOPT_URL, $api_url . '/database/search?q=' . $search_entry . '&type=release&per_page=20');
+curl_setopt($curl, CURLOPT_URL, $api_url . '/database/search?q=' . $search_entry . '&type=master&per_page=20');
 
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
     'Authorization: Discogs token=' . $token,

@@ -10,7 +10,7 @@ $release_id = isset($_GET['id']) ? $_GET['id'] : die();;
 $release_id = trim(strtolower($release_id));
 
 
-curl_setopt($curl, CURLOPT_URL, $api_url . '/releases/' . $release_id);
+curl_setopt($curl, CURLOPT_URL, $api_url . '/masters/' . $release_id);
 
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
     'Authorization: Discogs token=' . $token,
