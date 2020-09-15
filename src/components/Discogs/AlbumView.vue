@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="auto">
-      <v-card class="d-inline-block mx-auto" v-if="mounted">
+      <v-card class="d-inline-block mx-auto" v-if="ismounted">
         <v-avatar class="ma-3" size="300" tile>
           <v-img :src="album.images[0]"></v-img>
         </v-avatar>
@@ -11,23 +11,28 @@
             v-text="album.title"
         ></v-card-title>
 
-        <v-card-subtitle class="text-h6" v-text="album.artist.name"></v-card-subtitle>
+
+        <v-card-subtitle>
+          <router-link :to="'/search/artist/'+album.artist.id" class="text-h6 text--white">
+            {{album.artist.name}}
+          </router-link>
+        </v-card-subtitle>
         <v-card-text>
           <ul>
             <li>
               Date de la release : {{ album.release_date || 'inconnu' }}
             </li>
             <li>
-              Genres : {{album.genres.join(', ')}}
+              Genres : {{ album.genres.join(', ') }}
             </li>
           </ul>
         </v-card-text>
       </v-card>
-      <v-skeleton-loader type="card" class="d-inline-block mx-auto" min-width="300" v-if="!mounted">
+      <v-skeleton-loader type="card" class="d-inline-block mx-auto" min-width="300" v-if="!ismounted">
       </v-skeleton-loader>
     </v-col>
     <v-col cols="6">
-      <v-card shaped class="mx-auto pa-2" v-if="mounted">
+      <v-card shaped class="mx-auto pa-2" v-if="ismounted">
         <v-card-title>
           Pistes
         </v-card-title>
@@ -42,15 +47,15 @@
             </thead>
             <tbody>
             <tr v-for="track in album.tracklist" :key="track.position">
-              <td>{{track.position}}</td>
-              <td>{{track.title}}</td>
-              <td class="text-right">{{track.duration}}</td>
+              <td>{{ track.position }}</td>
+              <td>{{ track.title }}</td>
+              <td class="text-right">{{ track.duration }}</td>
             </tr>
             </tbody>
           </template>
         </v-simple-table>
       </v-card>
-      <v-skeleton-loader type="card" class="d-inline-block mx-auto" min-width="300" v-if="!mounted">
+      <v-skeleton-loader type="card" class="d-inline-block mx-auto" min-width="300" v-if="!ismounted">
       </v-skeleton-loader>
     </v-col>
 
@@ -74,7 +79,7 @@ export default {
   name: "AlbumView",
   data: function () {
     return {
-      mounted: false,
+      ismounted: false,
       error_snackbar: false,
       album_id: '',
       album: {}
@@ -90,7 +95,7 @@ export default {
       this.$http.get(this.$api_url + 'discogs/get_album.php?id=' + this.album_id)
           .then(result => {
             this.album = result.data;
-            this.mounted = true;
+            this.ismounted = true;
           })
           .catch(() => {
             this.error_snackbar = true;
@@ -101,8 +106,8 @@ export default {
 </script>
 
 <style scoped>
- ul {
-   list-style-type: none;
-   padding: 0;
- }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 </style>

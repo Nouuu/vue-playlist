@@ -46,6 +46,11 @@ const routes = [
         component: () => import('@/components/Discogs/AlbumView')
     },
     {
+        path: '/search/artist/:artist_id',
+        name: 'Artist view',
+        component: () => import('@/components/Discogs/ArtistView')
+    },
+    {
         path: '/logout',
         name: 'Logout',
         component: Logout
