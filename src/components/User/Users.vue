@@ -95,7 +95,6 @@ export default {
       this.error_snackbar = false;
       this.$http.get(this.$api_url + 'user/' + 'read.php')
           .then(result => {
-            console.log(result);
             this.user_list = result.data.body;
             this.api_progress_bar = false;
           })

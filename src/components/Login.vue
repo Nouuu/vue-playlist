@@ -66,7 +66,6 @@ export default {
   methods: {
     login: function () {
       const json = JSON.stringify({'email_user': this.email_user, 'password_user': this.password_user});
-      console.log(json);
       this.$http.post(this.$api_url + 'user/login.php', json).then((response) => {
         sessionStorage.setItem('connected', 'true');
         sessionStorage.setItem('user', JSON.stringify(response.data));

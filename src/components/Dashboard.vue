@@ -30,11 +30,6 @@
         </v-data-table>
       </v-card>
     </v-col>
-
-    <v-col cols="12" md="8" lg="6">
-      <album-search @selectAlbum="select_album($event)"></album-search>
-    </v-col>
-
     <v-snackbar v-model="error_snackbar">
       Erreur API
       <template v-slot:action="">
@@ -48,7 +43,6 @@
   </v-row>
 </template>
 <script>
-import AlbumSearch from "@/components/Discogs/AlbumSearch";
 
 export default {
   name: "DashBoard",
@@ -77,7 +71,6 @@ export default {
     }
   },
   components: {
-    'album-search': AlbumSearch
   },
   mounted() {
     this.api_get_user_playlist();
@@ -95,9 +88,6 @@ export default {
             this.api_list_progress_bar = false;
             this.error_snackbar = true;
           })
-    },
-    select_album($id) {
-      console.log('selected : ' + $id);
     }
   }
 }
