@@ -109,4 +109,22 @@ class AlbumList
             return false;
         }
     }
+
+    public function isOwner(): bool
+    {
+        $sql = 'select count(*) as owning from ' . $this->db_table .
+            ' where id_list = :id_list AND user_email_fk = :email';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':id_list', $this->id_list);
+        $stmt->bindParam(':email', $this->user_email_fk);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            return $data['owning'] == 1;
+        }
+        return false;
+    }
 }
