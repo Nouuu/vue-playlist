@@ -6,6 +6,8 @@ require_once __DIR__ . '/../../class/User.php';
 
 require_once __DIR__ . '/../../middleware/user.php';
 
+die;
+
 $database = new Database();
 $db = $database->getConnection();
 
