@@ -24,6 +24,26 @@ class Album
         $this->conn = $db;
     }
 
+    public static function fromPDO($row, PDO $db): Album
+    {
+        $album = new Album($db);
+
+        $album->artist_id = empty($row['artist_id']) ? null : $row['artist_id'];
+        $album->title = empty($row['title']) ? '' : $row['title'];
+        $album->year = empty($row['year']) ? null : $row['year'];
+        $album->image = empty($row['image']) ? '' : $row['image'];
+        $album->tracks = empty($row['tracks']) ? null : $row['tracks'];
+
+        if ($album->artist_id) {
+            $album->artist = new Artist($db);
+            $album->artist->id = (int)$album->artist_id;
+            $album->artist->getArtist();
+        }
+
+        return $album;
+    }
+
+
     public function getAlbums()
     {
         $sql = 'select id, artist_id, title, year, image, tracks from ' . $this->db_table;
