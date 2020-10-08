@@ -3,7 +3,7 @@ require_once __DIR__ . '/../header_post.php';
 include_once __DIR__ . '/../../config/Database.php';
 include_once __DIR__ . '/../../class/Artist.php';
 
-//require_once __DIR__ . '/../../middleware/user.php';
+require_once __DIR__ . '/../../middleware/admin.php';
 
 $database = new Database();
 $db = $database->getConnection();
