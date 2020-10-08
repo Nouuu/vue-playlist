@@ -54,9 +54,8 @@ class AlbumList
 
         if ($stmt->execute()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function getSingleList()
@@ -105,9 +104,8 @@ class AlbumList
 
         if ($stmt->execute()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function isOwner(): bool
