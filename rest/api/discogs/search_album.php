@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../header_get.php';
-//require_once __DIR__ . '/../../middleware/user.php';
+require_once __DIR__ . '/../../middleware/user.php';
 
 $curl = curl_init();
 $token = 'iYVWgqSIDEjmWvgMKZoMfrpESWtiAYJtXghMkhMM';
