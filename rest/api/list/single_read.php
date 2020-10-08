@@ -14,7 +14,7 @@ $item->id_list = isset($_GET['id']) ? $_GET['id'] : die();
 $item->getSingleList();
 
 
-if ($item->name_list != null) {
+if (isset($item->name_list) && $item->name_list != null) {
     $user = [
         'id_list' => $item->id_list,
         'name_list' => $item->name_list,
