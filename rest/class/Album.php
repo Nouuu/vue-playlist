@@ -24,5 +24,12 @@ class Album
         $this->conn = $db;
     }
 
+    public function getAlbums()
+    {
+        $sql = 'select id, artist_id, title, year, image, tracks from ' . $this->db_table;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
 
 }
