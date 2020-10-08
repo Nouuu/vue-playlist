@@ -69,13 +69,10 @@ class Album
             $this->tracks = $data['tracks'];
         }
 
-        $this->artist = new Artist($this->conn);
         if ($this->artist_id) {
+            $this->artist = new Artist($this->conn);
             $this->artist->id = $this->artist_id;
             $this->artist->getArtist();
-        } else {
-            $this->artist->id = -1;
-            $this->artist->name = '';
         }
     }
 
