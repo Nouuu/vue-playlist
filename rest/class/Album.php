@@ -32,4 +32,30 @@ class Album
         return $stmt;
     }
 
+    public function getAlbum()
+    {
+        $sql = 'select id, artist_id, title, year, image, tracks from ' . $this->db_table
+            . ' where id = ? limit 0,1';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            $this->artist_id = $data['artist_id'];
+            $this->title = $data['title'];
+            $this->year = $data['year'];
+            $this->image = $data['image'];
+            $this->tracks = $data['tracks'];
+        }
+
+        $this->artist = new Artist($this->conn);
+        if ($this->artist_id) {
+            $this->artist->id = $this->artist_id;
+            $this->artist->getArtist();
+        } else {
+            $this->artist->id = -1;
+            $this->artist->name = '';
+        }
+    }
 }
