@@ -58,4 +58,24 @@ class Album
             $this->artist->name = '';
         }
     }
+    public function createAlbum()
+    {
+        $sql = 'insert into ' . $this->db_table . ' (id, artist_id, title, year, image, tracks)' .
+            ' VALUES (:id, :artist_id, :title, :year, :image, :tracks)';
+        $stmt = $this->conn->prepare($sql);
+
+        $this->title = htmlspecialchars(strip_tags($this->title));
+
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':artist_id', $this->artist_id);
+        $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':year', $this->year);
+        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':tracks', $this->tracks);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
 }
