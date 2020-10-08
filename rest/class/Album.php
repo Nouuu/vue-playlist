@@ -8,12 +8,12 @@ class Album
     private string $db_table = 'album';
 
     public int $id;
-    public int $artist_id;
+    public $artist_id;
     public Artist $artist;
     public string $title;
-    public int $year;
+    public $year;
     public string $image;
-    public int $tracks;
+    public $tracks;
 
     /**
      * Album constructor.
@@ -61,6 +61,10 @@ class Album
 
     public function createAlbum()
     {
+        if ($this->exist()) {
+            return true;
+        }
+
         $sql = 'insert into ' . $this->db_table . ' (id, artist_id, title, year, image, tracks)' .
             ' VALUES (:id, :artist_id, :title, :year, :image, :tracks)';
         $stmt = $this->conn->prepare($sql);
@@ -113,6 +117,24 @@ class Album
 
         $stmt->bindParam(1, $this->id);
         if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function exist()
+    {
+        $sql = 'select title from ' . $this->db_table .
+            ' where id = :id';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            if ($data['title'] != $this->title) {
+                $this->updateAlbum();
+            }
             return true;
         }
         return false;
