@@ -64,14 +64,15 @@ class Artist
 
         $stmt = $this->conn->prepare($sql);
 
+        $this->name = htmlspecialchars(strip_tags($this->name));
+
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':name', $this->name);
 
         if ($stmt->execute()) {
             return true;
-        } else {
-            return false;
         }
+            return false;
     }
 
     public function updateArtist()

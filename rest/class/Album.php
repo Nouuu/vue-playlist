@@ -8,12 +8,12 @@ class Album
     private string $db_table = 'album';
 
     public int $id;
-    public int $artist_id;
+    public $artist_id;
     public Artist $artist;
     public string $title;
-    public int $year;
+    public $year;
     public string $image;
-    public int $tracks;
+    public $tracks;
 
     /**
      * Album constructor.
@@ -23,6 +23,26 @@ class Album
     {
         $this->conn = $db;
     }
+
+    public static function fromPDO($row, PDO $db): Album
+    {
+        $album = new Album($db);
+
+        $album->artist_id = empty($row['artist_id']) ? null : $row['artist_id'];
+        $album->title = empty($row['title']) ? '' : $row['title'];
+        $album->year = empty($row['year']) ? null : $row['year'];
+        $album->image = empty($row['image']) ? '' : $row['image'];
+        $album->tracks = empty($row['tracks']) ? null : $row['tracks'];
+
+        if ($album->artist_id) {
+            $album->artist = new Artist($db);
+            $album->artist->id = (int)$album->artist_id;
+            $album->artist->getArtist();
+        }
+
+        return $album;
+    }
+
 
     public function getAlbums()
     {
@@ -49,18 +69,19 @@ class Album
             $this->tracks = $data['tracks'];
         }
 
-        $this->artist = new Artist($this->conn);
         if ($this->artist_id) {
+            $this->artist = new Artist($this->conn);
             $this->artist->id = $this->artist_id;
             $this->artist->getArtist();
-        } else {
-            $this->artist->id = -1;
-            $this->artist->name = '';
         }
     }
 
     public function createAlbum()
     {
+        if ($this->exist()) {
+            return true;
+        }
+
         $sql = 'insert into ' . $this->db_table . ' (id, artist_id, title, year, image, tracks)' .
             ' VALUES (:id, :artist_id, :title, :year, :image, :tracks)';
         $stmt = $this->conn->prepare($sql);
@@ -113,6 +134,24 @@ class Album
 
         $stmt->bindParam(1, $this->id);
         if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function exist()
+    {
+        $sql = 'select title from ' . $this->db_table .
+            ' where id = :id';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            if ($data['title'] != $this->title) {
+                $this->updateAlbum();
+            }
             return true;
         }
         return false;
