@@ -11,6 +11,7 @@ class AlbumList
     public $name_list;
     public $date_creation_list;
     public $user_email_fk;
+    public int $album_count;
 
     public function __construct($db)
     {
@@ -62,6 +63,7 @@ class AlbumList
     public function getSingleList()
     {
         $sql = 'select id_list, name_list, date_creation_list, user_email_fk' .
+            ' (select count(*) from album_in_list where list_id = id_list) as album_count' .
             ' from ' . $this->db_table .
             ' where id_list = ? limit 0,1';
         $stmt = $this->conn->prepare($sql);
@@ -73,6 +75,7 @@ class AlbumList
             $this->name_list = $data['name_list'];
             $this->date_creation_list = $data['date_creation_list'];
             $this->user_email_fk = $data['user_email_fk'];
+            $this->album_count = $data['album_count'];
         }
     }
 
