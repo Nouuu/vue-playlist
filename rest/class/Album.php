@@ -79,6 +79,7 @@ class Album
         }
         return false;
     }
+
     public function updateAlbum()
     {
         $sql = 'update ' . $this->db_table . ' set ' .
@@ -99,6 +100,18 @@ class Album
         $stmt->bindParam(':image', $this->image);
         $stmt->bindParam(':tracks', $this->tracks);
 
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function deleteAlbum()
+    {
+        $sql = 'delete from ' . $this->db_table . ' where id = ?';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->id);
         if ($stmt->execute()) {
             return true;
         }
