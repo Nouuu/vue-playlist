@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/AlbumInList.php';
 
 class AlbumList
 {
@@ -12,6 +12,7 @@ class AlbumList
     public $date_creation_list;
     public $user_email_fk;
     public int $album_count;
+    public array $albums_in_list;
 
     public function __construct($db)
     {
@@ -61,7 +62,7 @@ class AlbumList
 
     public function getSingleList()
     {
-        $sql = 'select id_list, name_list, date_creation_list, user_email_fk' .
+        $sql = 'select id_list, name_list, date_creation_list, user_email_fk,' .
             ' (select count(*) from album_in_list where list_id = id_list) as album_count' .
             ' from ' . $this->db_table .
             ' where id_list = ? limit 0,1';
@@ -127,5 +128,30 @@ class AlbumList
             return $data['owning'] == 1;
         }
         return false;
+    }
+
+    public function getAlbumInList()
+    {
+        $sql = 'select album_id ' .
+            'from album_in_list ' .
+            'where list_id = ?';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->id_list);
+        $stmt->execute();
+
+        $final = [];
+
+        if ($stmt->rowCount()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $album_in_list = new AlbumInList($this->conn);
+                $album_in_list->list_id = $this->id_list;
+                $album_in_list->album_id = $row['album_id'];
+                $album_in_list->getAlbumInList();
+
+                array_push($final, $album_in_list);
+            }
+        }
+        $this->albums = $final;
     }
 }

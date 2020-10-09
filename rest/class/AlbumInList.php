@@ -13,6 +13,7 @@ class AlbumInList
     public int $list_id;
     public $grade;
     public $note;
+    public Album $album;
 
     /**
      * AlbumInList constructor.
@@ -116,4 +117,23 @@ class AlbumInList
         return false;
     }
 
+    public function getAlbumInList()
+    {
+        $sql = 'select grade, note  from ' . $this->db_table .
+            ' where album_id = :album_id and list_id = :list_id limit 0,1';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':album_id', $this->album_id);
+        $stmt->bindParam(':list_id', $this->list_id);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            $this->grade = $data['grade'];
+            $this->note = $data['note'];
+            $this->album = new Album($this->conn);
+            $this->album->id = $this->album_id;
+            $this->album->getAlbum();
+        }
+    }
 }
