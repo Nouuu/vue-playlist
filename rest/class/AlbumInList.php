@@ -10,9 +10,7 @@ class AlbumInList
     private string $db_table = 'album_in_list';
 
     public int $album_id;
-    public Album $album;
     public int $list_id;
-    public AlbumList $list;
     public $grade;
     public $note;
 
