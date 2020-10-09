@@ -33,7 +33,7 @@ class AlbumInList
             ' VALUES (:album_id, :list_id, :grade, :note)';
         $stmt = $this->conn->prepare($sql);
 
-        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->note = htmlspecialchars(strip_tags($this->note));
 
         $stmt->bindParam(':album_id', $this->album_id);
         $stmt->bindParam(':list_id', $this->list_id);
@@ -100,5 +100,20 @@ class AlbumInList
         return false;
     }
 
+    public function isOwner(string $email): bool
+    {
+        $sql = 'select count(*) as owning from list where id_list = :id_list and user_email_fk = :email';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':id_list', $this->list_id);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            return $data['owning'] == 1;
+        }
+        return false;
+    }
 
 }
