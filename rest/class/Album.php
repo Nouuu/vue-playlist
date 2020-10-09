@@ -139,7 +139,7 @@ class Album
         return false;
     }
 
-    public function exist()
+    public function exist():bool
     {
         $sql = 'select title from ' . $this->db_table .
             ' where id = :id';
