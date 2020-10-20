@@ -1,11 +1,12 @@
 <?php
 
 require_once __DIR__ . '/../header_get.php';
+require_once __DIR__ . '/../../env.php';
 //require_once __DIR__ . '/../../middleware/user.php';
 
 $curl = curl_init();
-$token = 'iYVWgqSIDEjmWvgMKZoMfrpESWtiAYJtXghMkhMM';
-$api_url = 'https://api.discogs.com';
+$token = discogs_api_token;
+$api_url = discogs_api_url;
 $release_id = isset($_GET['id']) ? $_GET['id'] : die();;
 $release_id = trim(strtolower($release_id));
 

@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/DiscogsArtist.php';
+require_once __DIR__ . '../env.php';
 
 class DiscogsAlbum
 {
-    protected string $token = 'iYVWgqSIDEjmWvgMKZoMfrpESWtiAYJtXghMkhMM';
-    protected string $api_url = 'https://api.discogs.com';
+    protected string $token = discogs_api_token;
+    protected string $api_url = discogs_api_url;
 
     public DiscogsArtist $artist;
     public string $title;
