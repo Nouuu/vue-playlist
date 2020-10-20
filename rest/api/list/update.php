@@ -18,6 +18,7 @@ $connectedUser->getConnectedUser();
 
 $item->id_list = $data->id_list;
 $item->name_list = $data->name_list;
+$item->image_list = empty($data->image_list) ? null : $data->image_list;
 $item->user_email_fk = $connectedUser->email_user;
 
 if ($item->isOwner()) {

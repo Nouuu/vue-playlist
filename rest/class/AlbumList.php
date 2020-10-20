@@ -31,7 +31,7 @@ class AlbumList
 
     public function getUsersLists()
     {
-        $sql = 'select id_list, name_list, date_creation_list, user_email_fk,' .
+        $sql = 'select id_list, name_list, date_creation_list, user_email_fk, cover,' .
             ' (select count(*) from album_in_list where list_id = id_list) as album_count from ' . $this->db_table .
             ' where user_email_fk = ?';
         $stmt = $this->conn->prepare($sql);
