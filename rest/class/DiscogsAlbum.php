@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/DiscogsArtist.php';
-require_once __DIR__ . '../env.php';
+require_once __DIR__ . '/../env.php';
 
 class DiscogsAlbum
 {
@@ -8,6 +8,7 @@ class DiscogsAlbum
     protected string $api_url = discogs_api_url;
 
     public DiscogsArtist $artist;
+    public $id;
     public string $title;
     public $release_date;
     public int $tracks;
@@ -47,8 +48,9 @@ class DiscogsAlbum
 
         $album->title = empty($output->title) ? '' : $output->title;
         $album->release_date = empty($output->year) ? '' : $output->year;
-        $album->tracks = sizeof($output->tracklist);
-        $album->image = empty($output->images) ? '' : $output->images[0];
+        $album->tracks = empty($output->tracklist) ? 0 : sizeof($output->tracklist);
+        $album->image = empty($output->images) ? '' : $output->images[0]->uri;
+        $album->id = $release_id;
 
         return $album;
     }
