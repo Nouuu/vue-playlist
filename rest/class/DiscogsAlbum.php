@@ -17,7 +17,7 @@ class DiscogsAlbum
     {
     }
 
-    public static function getAlbum(int $id): DiscogsAlbum
+    public static function getAlbum(int $id): ?DiscogsAlbum
     {
         $album = new DiscogsAlbum();
         $curl = curl_init();
@@ -34,6 +34,10 @@ class DiscogsAlbum
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $output = json_decode(curl_exec($curl));
+
+        if (curl_errno($curl)) {
+            return null;
+        }
 
         curl_close($curl);
 
