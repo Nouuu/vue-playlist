@@ -28,7 +28,8 @@ if ($itemsCount > 0) {
             'name_list' => $row['name_list'],
             'date_creation_list' => $row['date_creation_list'],
             'user_email_fk' => $row['user_email_fk'],
-            'album_count' => $row['album_count']
+            'album_count' => $row['album_count'],
+            'cover' => $row['cover']
         ];
         array_push($listArr["body"], $e);
     }
