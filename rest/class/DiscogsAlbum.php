@@ -8,6 +8,7 @@ class DiscogsAlbum
     protected string $api_url = discogs_api_url;
 
     public DiscogsArtist $artist;
+    public $id;
     public string $title;
     public $release_date;
     public int $tracks;
@@ -49,6 +50,7 @@ class DiscogsAlbum
         $album->release_date = empty($output->year) ? '' : $output->year;
         $album->tracks = sizeof($output->tracklist);
         $album->image = empty($output->images) ? '' : $output->images[0];
+        $album->id = $release_id;
 
         return $album;
     }
