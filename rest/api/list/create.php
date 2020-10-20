@@ -14,7 +14,8 @@ $data = json_decode(file_get_contents('php://input'));
 $connectedUser = new User($db);
 $connectedUser->getConnectedUser();
 
-$item->name_list = $data->name_list;
+$item->name_list = empty($data->name_list) ? die : $data->name_list;
+$item->image_list = empty($data->image_list) ? null : $data->image_list;
 $item->user_email_fk = $connectedUser->email_user;
 
 if ($item->createList()) {

@@ -12,6 +12,7 @@ class AlbumList
     public $date_creation_list;
     public $user_email_fk;
     public int $album_count;
+    public $image_list;
     public array $albums_in_list;
 
     public function __construct($db)
@@ -43,8 +44,8 @@ class AlbumList
 
     public function createList()
     {
-        $sql = 'insert into ' . $this->db_table . ' (name_list, date_creation_list, user_email_fk) ' .
-            'VALUES (:name, CURDATE(), :user_email)';
+        $sql = 'insert into ' . $this->db_table . ' (name_list, date_creation_list, user_email_fk, cover) ' .
+            'VALUES (:name, CURDATE(), :user_email, :cover)';
 
         $stmt = $this->conn->prepare($sql);
 
@@ -53,6 +54,7 @@ class AlbumList
 
         $stmt->bindParam(':name', $this->name_list);
         $stmt->bindParam(':user_email', $this->user_email_fk);
+        $stmt->bindParam(':cover', $this->image_list);
 
         if ($stmt->execute()) {
             return true;
@@ -82,7 +84,8 @@ class AlbumList
     public function updateList()
     {
         $sql = 'update ' . $this->db_table . ' set ' .
-            'name_list = :name ' .
+            'name_list = :name, ' .
+            'cover = :cover ' .
             'where id_list = :id';
 
         $stmt = $this->conn->prepare($sql);
@@ -91,6 +94,7 @@ class AlbumList
 
         $stmt->bindParam(':id', $this->id_list);
         $stmt->bindParam(':name', $this->name_list);
+        $stmt->bindParam(':cover', $this->image_list);
 
         if ($stmt->execute()) {
             return true;
