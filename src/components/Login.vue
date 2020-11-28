@@ -51,7 +51,18 @@
         </v-row>
       </v-container>
     </v-main>
+    <v-snackbar v-model="snackbar">
+      {{ snackbar_msg }}
+      <template v-slot:action="">
+        <v-btn
+            color="pink"
+            @click="snackbar = false"
+            text>Ok
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
+
 </template>
 
 <script>
@@ -60,7 +71,9 @@ export default {
   data: function () {
     return {
       email_user: '',
-      password_user: ''
+      password_user: '',
+      snackbar: false,
+      snackbar_msg: ""
     }
   },
   methods: {
@@ -70,8 +83,20 @@ export default {
         sessionStorage.setItem('connected', 'true');
         sessionStorage.setItem('user', JSON.stringify(response.data));
         this.$router.push('/');
-      }).catch((response) => {
-        console.log(response);
+      }).catch((error) => {
+        console.log(error.response.status);
+        switch (error.response.status) {
+          case 500:
+            this.snackbar_msg = 'Une erreur serveur est survenue...';
+            break;
+          case 401:
+            this.snackbar_msg = 'Identifiants incorrects';
+            break;
+          default:
+            this.snackbar_msg = 'Erreur';
+            break;
+        }
+        this.snackbar = true;
       })
     }
   }
