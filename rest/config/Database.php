@@ -16,7 +16,9 @@ class Database
                 env_db_password);
             $this->conn->exec("set names utf8");
         } catch (PDOException $exception) {
+            http_response_code(500);
             echo json_encode('Database could not be connected: ' . $exception->getMessage());
+            die;
         }
         return $this->conn;
     }
