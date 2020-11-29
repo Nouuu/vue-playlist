@@ -51,6 +51,11 @@ const routes = [
         component: () => import('@/components/Discogs/ArtistView')
     },
     {
+        path: '/list/:list_id',
+        name: 'List view',
+        component: () => import('@/components/List/ListView')
+    },
+    {
         path: '/logout',
         name: 'Logout',
         component: Logout
