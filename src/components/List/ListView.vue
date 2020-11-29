@@ -1,15 +1,17 @@
 <template>
   <v-app>
     <v-row>
-      <v-col cols="auto" style="max-width: 500px">
+      <v-col cols="12" lg="6">
 
         <v-card class="d-inline-block mx-auto" v-if="!api_loading_list">
-          <div class="text-center">
 
-            <v-avatar class="ma-3" size="300" tile>
+<!--            <v-avatar class="ma-3" size="300" tile>
               <v-img :src="list.image_list"></v-img>
-            </v-avatar>
-          </div>
+            </v-avatar>-->
+            <div class="ma-3">
+              <v-img v-if="list.image_list" contain width="100%"
+                     :src="list.image_list"></v-img>
+            </div>
           <v-card-title class="headline">
             {{ list.name_list }}
           </v-card-title>
@@ -27,7 +29,11 @@
         </v-skeleton-loader>
       </v-col>
       <v-col cols="12" md="8" lg="6">
-        <h2>Tableau</h2>
+        <v-card>
+          <v-card-title class="d-flex align-baseline">
+            Albums
+          </v-card-title>
+        </v-card>
       </v-col>
     </v-row>
   </v-app>
