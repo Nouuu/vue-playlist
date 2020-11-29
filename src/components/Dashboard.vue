@@ -27,9 +27,13 @@
             :headers="lists_header"
             :items="lists"
             :search="list_searchbar"
-            @click:row="showList"
         >
 
+          <template v-slot:item.name_list="{item}">
+            <div @click="showList(item)" class="text-decoration-underline font-weight-bold" style="cursor: pointer">
+              {{item.name_list}}
+            </div>
+          </template>
           <template v-slot:item.cover="{item}">
             <div class="my-2">
               <v-img :src="item.cover" :alt="item.cover" height="75px" max-width="75px" contain></v-img>
