@@ -11,6 +11,7 @@ class AlbumList
     public $name_list;
     public $date_creation_list;
     public $user_email_fk;
+    public $user_pseudo;
     public int $album_count;
     public $image_list;
     public array $albums_in_list;
@@ -22,7 +23,7 @@ class AlbumList
 
     public function getLists()
     {
-        $sql = 'select id_list, name_list, date_creation_list, user_email_fk,' .
+        $sql = 'select id_list, name_list, date_creation_list, user_email_fk, cover,' .
             ' (select count(*) from album_in_list where list_id_fk = id_list) as album_count from ' . $this->db_table;
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -64,9 +65,10 @@ class AlbumList
 
     public function getSingleList()
     {
-        $sql = 'select id_list, name_list, date_creation_list, user_email_fk,' .
-            ' (select count(*) from album_in_list where list_id = id_list) as album_count' .
-            ' from ' . $this->db_table .
+        $sql = 'select id_list, name_list, date_creation_list, user_email_fk, cover,' .
+            ' (select count(*) from album_in_list where list_id = id_list) as album_count, ' .
+            ' u.pseudo_user ' .
+            ' from ' . $this->db_table . ' left join user u on u.email_user = list.user_email_fk ' .
             ' where id_list = ? limit 0,1';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id_list);
@@ -78,6 +80,8 @@ class AlbumList
             $this->date_creation_list = $data['date_creation_list'];
             $this->user_email_fk = $data['user_email_fk'];
             $this->album_count = $data['album_count'];
+            $this->image_list = $data['cover'];
+            $this->user_pseudo = $data['pseudo_user'];
         }
     }
 
