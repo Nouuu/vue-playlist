@@ -26,7 +26,9 @@
             v-if="!api_list_progress_bar"
             :headers="lists_header"
             :items="lists"
-            :search="list_searchbar">
+            :search="list_searchbar"
+            @click:row="showList"
+        >
 
           <template v-slot:item.cover="{item}">
             <div class="my-2">
@@ -276,6 +278,9 @@ export default {
       this.edit_form.name = item.name_list;
       this.edit_form.imgUrl = item.cover === null ? '' : item.cover;
       this.dialogEdit = true;
+    },
+    showList(event) {
+      this.$router.push('/list/' + event.id_list);
     }
   }
 }

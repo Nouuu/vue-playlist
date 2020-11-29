@@ -104,7 +104,7 @@ export default {
           })
     },
     showUser(e) {
-      this.$router.push('/user/' + e.email_user)
+      this.$router.push('/user/' + e.email_user);
     }
   }
 }
