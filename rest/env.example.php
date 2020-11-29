@@ -6,3 +6,4 @@ define('env_db_username', '');
 define('env_db_password', '');
 define('discogs_api_url', 'https://api.discogs.com');
 define('discogs_api_token', '');
+define('cors_domain', 'https://vuejs-domain.example');
