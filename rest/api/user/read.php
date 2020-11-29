@@ -24,7 +24,7 @@ if ($itemsCount > 0) {
         $e = [
             'email_user' => $row['email_user'],
             'pseudo_user' => $row['pseudo_user'],
-            'password_user' => $row['password_user'],
+//            'password_user' => $row['password_user'],
             'role_user' => $row['role_user'],
             'date_inscription_user' => $row['date_inscription_user'],
             'list_count' => $row['list_count']

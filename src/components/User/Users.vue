@@ -66,10 +66,10 @@ export default {
           text: 'Pseudo',
           value: 'pseudo_user'
         },
-        {
-          text: 'Mot de passe',
-          value: 'password_user'
-        },
+        // {
+        //   text: 'Mot de passe',
+        //   value: 'password_user'
+        // },
         {
           text: 'Role',
           value: 'role_user'
