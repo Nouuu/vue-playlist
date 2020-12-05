@@ -10,8 +10,8 @@ axios.defaults.withCredentials = true;
 
 Vue.prototype.$http = axios;
 
-Vue.prototype.$api_url = 'http://api.test/';
-// Vue.prototype.$api_url = 'https://api.metal.nospy.fr/';
+// Vue.prototype.$api_url = 'http://localhost/';
+Vue.prototype.$api_url = 'https://api.metal.nospy.fr/';
 
 new Vue({
     router,
