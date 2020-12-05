@@ -47,6 +47,16 @@
             :headers="lists_header"
             :items="lists"
             :search="list_searchbar">
+          <template v-slot:item.name_list="{item}">
+            <div @click="showList(item)" class="text-decoration-underline font-weight-bold" style="cursor: pointer">
+              {{ item.name_list }}
+            </div>
+          </template>
+          <template v-slot:item.cover="{item}">
+            <div class="my-2">
+              <v-img :src="item.cover" :alt="item.cover" height="75px" max-width="75px" contain></v-img>
+            </div>
+          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -67,6 +77,8 @@
 </template>
 
 <script>
+import {UserFunctions} from "@/components/functions/User";
+
 export default {
   name: "User",
   data: function () {
@@ -87,6 +99,11 @@ export default {
         {
           text: 'Nombre d\'albums',
           value: 'album_count'
+        },
+        {
+          text: 'Image',
+          align: 'start',
+          value: 'cover'
         }
       ],
       list_searchbar: '',
@@ -97,6 +114,7 @@ export default {
   },
   mounted() {
     this.email_user = this.$route.params.email_user;
+    console.log(UserFunctions.getConnectedUser());
     this.api_get_user();
     this.api_get_user_playlist();
   },
@@ -127,6 +145,9 @@ export default {
             this.error_snackbar = true;
           })
     },
+    showList(event) {
+      this.$router.push('/list/' + event.id_list);
+    }
   }
 }
 </script>

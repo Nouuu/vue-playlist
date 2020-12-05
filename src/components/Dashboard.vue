@@ -126,8 +126,7 @@
           <v-progress-circular v-if="edit_form.progress_bar" indeterminate color="primary"
                                class="mr-3"></v-progress-circular>
           <v-btn :disabled="!edit_form.valid" @click="update_playlist" color="primary">Modifier</v-btn>
-          <v-btn color="warning"> Fermer
-            <!--              @click="close"-->
+          <v-btn color="warning" @click="dialogEdit = false"> Fermer
           </v-btn>
         </v-card-actions>
       </v-card>

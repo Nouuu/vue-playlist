@@ -35,7 +35,7 @@
           <v-icon>mdi-music-circle-outline</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Trouver un média</v-list-item-title>
+          <v-list-item-title>Recherche</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item link to="/users" exact>
